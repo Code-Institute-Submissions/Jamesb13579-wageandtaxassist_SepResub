@@ -13,8 +13,8 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('employeedetails')
 
-print('                         Welcome to Wage and Tax assist')
-print('                         ******************************')
+print(' '*25 + "Welcome to Wage and Tax assist")
+print(' '*25 + "******************************")
 
 def new_employee():
     """
@@ -30,4 +30,25 @@ def new_employee():
     worksheet_to_update.append_row(newemployee)
     print(newemployee)
 
-new_employee()
+#new_employee()
+
+def choose_option():
+    """
+    Function to choose between entering new employee and working out wages
+    """
+    print(' '*13 + "Type 1 if you would like to enter new employee details")
+    print(' '*9 + "Type 2 if you would like you work out existing employee wages")
+
+    userinput = int(input())
+
+    if userinput == 1:
+        print("You have chosen enter employee details")
+        new_employee()
+    elif userinput == 2:
+        print("You have chosen existing employee wages")
+
+    elif userinput > 2:
+        raise ValueError("Please enter 1 or 2")
+
+
+choose_option()
