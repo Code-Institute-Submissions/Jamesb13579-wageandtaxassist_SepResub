@@ -28,7 +28,7 @@ def new_employee():
     newemployee = name, tax_credits, wage
     worksheet_to_update = SHEET.worksheet("Sheet1")
     worksheet_to_update.append_row(newemployee)
-    print(newemployee)
+    print("Information added to spreadsheet")
     restart()
 
 
@@ -86,7 +86,7 @@ def restart():
         choose_option()
     elif userinput == 2:
         print("You have chosen no program will end now")
-        quit()
+        exit()
     elif userinput > 2:
         raise ValueError("Please enter 1 or 2")
 
@@ -149,7 +149,19 @@ def tax(wage):
     return tax_owed
 
 
-choose_option()
+#choose_option()
 
+if SHEET.sheet1.find("james"):
+    print("row_values")
+
+for i in range(1, SHEET.sheet1.row_count + 1):
+    row = SHEET.sheet1.row_values(i)
+    if row[0] == "james":
+        tax_credits = row[1]
+        hourly_wage = row[2]
+        print(tax_credits)
+        print(hourly_wage)
 
 WAGE = 685.92
+
+
