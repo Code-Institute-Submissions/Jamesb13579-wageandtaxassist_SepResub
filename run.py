@@ -1,6 +1,5 @@
 import gspread
 from google.oauth2.service_account import Credentials
-import pandas
 
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -23,9 +22,9 @@ def new_employee():
     """
     newemployee = []
     print("Please input employee details")
-    name = input("Enter employee name: ")
-    tax_credits = int(input("Enter employees tax Credits:"))
-    wage = input("Enter employees hourly wage:")
+    name = input("Enter employee name: \n")
+    tax_credits = int(input("Enter employees tax Credits:\n"))
+    wage = input("Enter employees hourly wage:\n")
     newemployee = name, tax_credits, wage
     worksheet_to_update = SHEET.worksheet("Sheet1")
     worksheet_to_update.append_row(newemployee)
@@ -39,7 +38,7 @@ def choose_option():
     print(' '*13 + "Type 1 if you would like to enter new employee details")
     print(' '*9 + "Type 2 if you would like you work out existing employee wages")
 
-    userinput = int(input("Type choice here please:"))
+    userinput = int(input("Type choice here please:\n"))
 
     if userinput == 1:
         print("You have chosen enter employee details")
@@ -56,19 +55,19 @@ def choose_option():
     function to work out and return wages and taxes owed
     """
     print("Enter employee and and hours worked this week")
-    name = input("Enter name here:")
-    hours = input("Hours worked this week:")
+    name = input("Enter name here:\n")
+    hours = input("Hours worked this week:\n")
     wage = name, hours
     return wage
     wages = SHEET.worksheet("Sheet1").get_all_values()
     print(wages)
 
 
-def prsi():
+def prsi(wage):
     """
     function to work out prsi charge for employee
     """
-    wage = 374
+    
     if wage < 352:
         prsi_owed = 0
     elif wage < 424:
@@ -80,14 +79,14 @@ def prsi():
     elif wage > 424.01:
         prsi_owed = round(wage * 0.04, 2)
         
-    print(prsi_owed)
+    return prsi_owed
 
 
-def usc():
+def usc(wage):
     """
     function to work out usc charge for employee
     """
-    wage = 685.92
+    
     if wage < 231:
         usc_owed = round(wage * 0.005, 2)
     elif wage < 409.5:
@@ -105,14 +104,14 @@ def usc():
         high_rate = (937.5 * 0.04)
         highest_rate = (wage - 1347)*0.08
         usc_owed = round(low_rate + mid_rate + high_rate + highest_rate, 2)
-    print(usc_owed)
+    return usc_owed
 
 
-def tax():
+def tax(wage):
     """
     function to work out tax charge for employee
     """
-    wage = 800.92
+    
     tax_credit = 95.89
     if wage < 707.69:
         tax_owed = round(wage * 0.2 - tax_credit, 2)
@@ -121,8 +120,17 @@ def tax():
         high_rate = (wage - 707.69)*0.4
         tax_owed = round(low_rate + high_rate - tax_credit, 2)
 
-    print(tax_owed)
+    return tax_owed
 
+WAGE = 685.92
 
-tax()
+taxowed = tax(WAGE)
+prsiowed = prsi(WAGE)
+useowed = usc(WAGE)
 
+print(' '*27 + "Hi wage details for this employee are:")
+print(' '*25 + f"Gross Weekly wage: {WAGE}")
+print(' '*32 + f"Tax Owed: {taxowed}")
+print(' '*32 + f"PRSI owed: {prsiowed}")
+print(' '*32 + f"USC owed: {useowed}")
+print(' '*29 + f"Net wage for this week {WAGE - taxowed -prsiowed - useowed}")
