@@ -72,15 +72,38 @@ def prsi():
         one_sixth = (wage - 352)/6
         prsi_credit = 12 - one_sixth
         taxable_pay = (wage * 0.04)
-        prsi_owed = taxable_pay - prsi_credit
+        prsi_owed = round(taxable_pay - prsi_credit, 2)
         
     elif wage > 424.01:
-        prsi_owed = (wage * 0.04)
+        prsi_owed = round(wage * 0.04, 2)
         
     print(prsi_owed)
 
+def usc():
+    """
+    function to work out usc charge for employee
+    """
+    wage = 685.92
+    if wage < 231:
+        usc_owed = round(wage * 0.005, 2)
+    elif wage < 409.5:
+        low_rate = (231 * 0.005)
+        mid_rate = (wage - 231)*0.02
+        usc_owed = round(low_rate + mid_rate, 2)
+    elif wage < 1347:
+        low_rate = (231 * 0.005)
+        mid_rate = (178.5 * 0.02)
+        high_rate = (wage - 409.5)*0.045
+        usc_owed = round(low_rate + mid_rate + high_rate, 2)
+    elif wage > 1347.01:
+        low_rate = (231 * 0.005)
+        mid_rate = (178.5 * 0.02)
+        high_rate = (937.5 * 0.04)
+        highest_rate = (wage - 1347)*0.08
+        usc_owed = round(low_rate + mid_rate + high_rate + highest_rate, 2)
+    print(usc_owed)
 
-prsi()
 
 
-#choose_option()
+usc()
+
