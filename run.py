@@ -16,6 +16,7 @@ SHEET = GSPREAD_CLIENT.open('employeedetails')
 print(' '*25 + "Welcome to Wage and Tax assist")
 print(' '*25 + "******************************")
 
+
 def new_employee():
     """
     Function to enter employee details to spreadsheet
@@ -29,6 +30,7 @@ def new_employee():
     worksheet_to_update = SHEET.worksheet("Sheet1")
     worksheet_to_update.append_row(newemployee)
     print(newemployee)
+
 
 def choose_option():
     """
@@ -47,6 +49,7 @@ def choose_option():
         wages_taxes()
     elif userinput > 2:
         raise ValueError("Please enter 1 or 2")
+
 
 #def wages_taxes():
     """
@@ -79,6 +82,7 @@ def prsi():
         
     print(prsi_owed)
 
+
 def usc():
     """
     function to work out usc charge for employee
@@ -104,6 +108,21 @@ def usc():
     print(usc_owed)
 
 
+def tax():
+    """
+    function to work out tax charge for employee
+    """
+    wage = 800.92
+    tax_credit = 95.89
+    if wage < 707.69:
+        tax_owed = round(wage * 0.2 - tax_credit, 2)
+    elif wage > 707.7:
+        low_rate = (707.69 * 0.2)
+        high_rate = (wage - 707.69)*0.4
+        tax_owed = round(low_rate + high_rate - tax_credit, 2)
 
-usc()
+    print(tax_owed)
+
+
+tax()
 
