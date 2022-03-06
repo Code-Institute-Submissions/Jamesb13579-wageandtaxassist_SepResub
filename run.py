@@ -29,6 +29,7 @@ def new_employee():
     worksheet_to_update = SHEET.worksheet("Sheet1")
     worksheet_to_update.append_row(newemployee)
     print(newemployee)
+    choose_option()
 
 
 def choose_option():
@@ -36,9 +37,9 @@ def choose_option():
     Function to choose between entering new employee and working out wages
     """
     print(' '*13 + "Type 1 if you would like to enter new employee details")
-    print("*" * 61)
-    print(' '*9 + "Type 2 if you would like you work out existing employee wages")
-    print("*" * 61)
+    print(' '*10 + "*" * 60)
+    print(' '*9 + "Type 2 if you would like you work out employee wages")
+    print(' '*10 + "*" * 60)
 
     userinput = int(input("Type choice here please:\n"))
 
@@ -78,9 +79,9 @@ def prsi(wage):
         one_sixth = (wage - 352)/6
         prsi_credit = 12 - one_sixth
         taxable_pay = (wage * 0.04)
-        prsi_owed = round(taxable_pay - prsi_credit, 2)        
+        prsi_owed = round(taxable_pay - prsi_credit, 2)
     elif wage > 424.01:
-        prsi_owed = round(wage * 0.04, 2)        
+        prsi_owed = round(wage * 0.04, 2)
     return prsi_owed
 
 
@@ -112,7 +113,7 @@ def tax(wage):
     """
     function to work out tax charge for employee
     """
-    
+
     tax_credit = 95.89
     if wage < 707.69:
         tax_owed = round(wage * 0.2 - tax_credit, 2)
