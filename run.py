@@ -36,7 +36,9 @@ def choose_option():
     Function to choose between entering new employee and working out wages
     """
     print(' '*13 + "Type 1 if you would like to enter new employee details")
+    print("*" * 61)
     print(' '*9 + "Type 2 if you would like you work out existing employee wages")
+    print("*" * 61)
 
     userinput = int(input("Type choice here please:\n"))
 
@@ -45,12 +47,15 @@ def choose_option():
         new_employee()
     elif userinput == 2:
         print("You have chosen existing employee wages")
-        wages_taxes()
+        WAGE = 685.92
+        tax(WAGE)
+        prsi(WAGE)
+        usc(WAGE)
     elif userinput > 2:
         raise ValueError("Please enter 1 or 2")
 
 
-#def wages_taxes():
+def wages_taxes():
     """
     function to work out and return wages and taxes owed
     """
@@ -67,18 +72,15 @@ def prsi(wage):
     """
     function to work out prsi charge for employee
     """
-    
     if wage < 352:
         prsi_owed = 0
     elif wage < 424:
         one_sixth = (wage - 352)/6
         prsi_credit = 12 - one_sixth
         taxable_pay = (wage * 0.04)
-        prsi_owed = round(taxable_pay - prsi_credit, 2)
-        
+        prsi_owed = round(taxable_pay - prsi_credit, 2)        
     elif wage > 424.01:
-        prsi_owed = round(wage * 0.04, 2)
-        
+        prsi_owed = round(wage * 0.04, 2)        
     return prsi_owed
 
 
@@ -86,7 +88,6 @@ def usc(wage):
     """
     function to work out usc charge for employee
     """
-    
     if wage < 231:
         usc_owed = round(wage * 0.005, 2)
     elif wage < 409.5:
@@ -122,13 +123,16 @@ def tax(wage):
 
     return tax_owed
 
-WAGE = 685.92
 
+choose_option()
+
+
+WAGE = 685.92
 taxowed = tax(WAGE)
 prsiowed = prsi(WAGE)
 useowed = usc(WAGE)
 
-print(' '*27 + "Hi wage details for this employee are:")
+print(' '*21 + "Hi wage details for this employee are:")
 print(' '*25 + f"Gross Weekly wage: {WAGE}")
 print(' '*32 + f"Tax Owed: {taxowed}")
 print(' '*32 + f"PRSI owed: {prsiowed}")
