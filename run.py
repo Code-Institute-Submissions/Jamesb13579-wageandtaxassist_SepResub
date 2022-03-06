@@ -29,7 +29,7 @@ def new_employee():
     worksheet_to_update = SHEET.worksheet("Sheet1")
     worksheet_to_update.append_row(newemployee)
     print(newemployee)
-    choose_option()
+    restart()
 
 
 def choose_option():
@@ -48,25 +48,49 @@ def choose_option():
         new_employee()
     elif userinput == 2:
         print("You have chosen existing employee wages")
-        WAGE = 685.92
-        tax(WAGE)
-        prsi(WAGE)
-        usc(WAGE)
+        chosen_employee()
     elif userinput > 2:
         raise ValueError("Please enter 1 or 2")
 
 
-def wages_taxes():
+def chosen_employee():
     """
-    function to work out and return wages and taxes owed
+    fuction to bring together tax details for chosen employee
     """
-    print("Enter employee and and hours worked this week")
-    name = input("Enter name here:\n")
-    hours = input("Hours worked this week:\n")
-    wage = name, hours
-    return wage
-    wages = SHEET.worksheet("Sheet1").get_all_values()
-    print(wages)
+    employee_name = input("Please enter employees name:\n")
+    WAGE = 685.92
+    taxowed = tax(WAGE)
+    prsiowed = prsi(WAGE)
+    useowed = usc(WAGE)
+    print(' '*21 + "Hi wage details for this employee are:")
+    print(' '*25 + f"Gross Weekly wage: {WAGE}")
+    print(' '*32 + f"Tax Owed: {taxowed}")
+    print(' '*32 + f"PRSI owed: {prsiowed}")
+    print(' '*32 + f"USC owed: {useowed}")
+    print(' '*29 + f"total tax owed {taxowed+prsiowed+useowed}")
+    print(' '*29+f"Net wage for this week {WAGE-taxowed-prsiowed-useowed}")
+    restart()
+
+
+def restart():
+    """
+    function to allow user to restart to enter new data.
+    or to exit the program.
+    """
+    print("Would you like to start the process again")
+    print("Type 1 for yes or 2 for no")
+    userinput = int(input("Type choice here please:\n"))
+
+    if userinput == 1:
+        print("You have chosen yes")
+        choose_option()
+    elif userinput == 2:
+        print("You have chosen no program will end now")
+        quit()
+    elif userinput > 2:
+        raise ValueError("Please enter 1 or 2")
+
+
 
 
 def prsi(wage):
@@ -129,13 +153,3 @@ choose_option()
 
 
 WAGE = 685.92
-taxowed = tax(WAGE)
-prsiowed = prsi(WAGE)
-useowed = usc(WAGE)
-
-print(' '*21 + "Hi wage details for this employee are:")
-print(' '*25 + f"Gross Weekly wage: {WAGE}")
-print(' '*32 + f"Tax Owed: {taxowed}")
-print(' '*32 + f"PRSI owed: {prsiowed}")
-print(' '*32 + f"USC owed: {useowed}")
-print(' '*29 + f"Net wage for this week {WAGE - taxowed -prsiowed - useowed}")
