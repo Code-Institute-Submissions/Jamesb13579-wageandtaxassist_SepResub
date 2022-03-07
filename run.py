@@ -1,6 +1,7 @@
+from decimal import Decimal as D
 import gspread
 from google.oauth2.service_account import Credentials
-from decimal import Decimal as D
+
 
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -45,9 +46,9 @@ def new_employee():
     newemployee = []
     print("Please input employee details")
     name = input("Enter employee name: \n")
-    tax_credits = int(input("Enter employees tax Credits:\n"))
+    credits_tax = int(input("Enter employees tax Credits:\n"))
     wage = input("Enter employees hourly wage:\n")
-    newemployee = name, tax_credits, wage
+    newemployee = name, credits_tax, wage
     worksheet_to_update = SHEET.worksheet("Sheet1")
     worksheet_to_update.append_row(newemployee)
     print("Information added to spreadsheet")
@@ -58,36 +59,35 @@ def employee_name():
     """
     input for employee name
     """
-    employee_name = input("Please enter employees name:\n")
-    return employee_name
-    
+    name = input("Please enter employees name:\n")
+    return name
+
 
 def weekly_hours():
     """
     input for hours worked
     """
-    weekly_hours = int(input("Hours worked this week:\n"))
-    return weekly_hours
+    week_hours = int(input("Hours worked this week:\n"))
+    return week_hours
 
 
-
-def hourly_wage(employeeName):
+def hourly_wage(name):
     """
-    test
-    """    
+    returns employees hourly wage from the spreedsheet
+    """
     for i in range(1, SHEET.sheet1.row_count + 1):
         row = SHEET.sheet1.row_values(i)
-        if row[0] == employeeName:
+        if row[0] == name:
             return row[2]
 
 
-def tax_credits(employeeName):
+def tax_credits(name):
     """
-    test
+    returns employees tax credits from the spreedsheet
     """
     for i in range(1, SHEET.sheet1.row_count + 1):
         row = SHEET.sheet1.row_values(i)
-        if row[0] == employeeName:
+        if row[0] == name:
             return row[1]
 
 
@@ -108,8 +108,6 @@ def restart():
         exit()
     elif userinput > 2:
         raise ValueError("Please enter 1 or 2")
-
-
 
 
 def prsi(wage):
@@ -152,33 +150,31 @@ def usc(wage):
     return usc_owed
 
 
-def tax(wage, weeklyTaxCredits):
+def tax(wage, weekly_tax_credits):
     """
     function to work out tax charge for employee
     """
-
-    
     if wage < 707.69:
-        tax_owed = round(int(wage) * 0.2 - int(weeklyTaxCredits), 2)
+        tax_owed = round(int(wage) * 0.2 - int(weekly_tax_credits), 2)
     elif wage > 707.7:
         low_rate = (707.69 * 0.2)
         high_rate = (int(wage) - 707.69)*0.4
-        tax_owed = round(low_rate + high_rate - weeklyTaxCredits, 2)
-
+        tax_owed = round(low_rate + high_rate - weekly_tax_credits, 2)
     return tax_owed
+
 
 def main():
     """
-    test
+    this runs when option 2 is chosen to brimg together all the functions
     """
-    employeeName = employee_name()
-    weeklyHours = weekly_hours()
-    hourlyWage = hourly_wage(employeeName)
-    taxCredits = tax_credits(employeeName)
-    weeklyTaxCredits = D(taxCredits) / 52
-    wage = D(hourlyWage) * D(weeklyHours)
+    name = employee_name()
+    hours = weekly_hours()
+    hourly_rate = hourly_wage(name)
+    credits_tax = tax_credits(name)
+    weekly_tax_credits = D(credits_tax) / 52
+    wage = D(hourly_rate) * D(hours)
     print(wage)
-    taxowed = tax(wage, weeklyTaxCredits)
+    taxowed = tax(wage, weekly_tax_credits)
     prsiowed = prsi(wage)
     useowed = usc(wage)
     print(' '*21 + "Hi wage details for this employee are:")
@@ -186,8 +182,8 @@ def main():
     print(' '*32 + f"Tax Owed: {taxowed}")
     print(' '*32 + f"PRSI owed: {prsiowed}")
     print(' '*32 + f"USC owed: {useowed}")
-    print(' '*29 + f"total tax owed {taxowed+prsiowed+useowed}")
-    print(' '*29+f"Net wage for this week {int(wage)-taxowed-prsiowed-useowed}")
+    print(' '*29 + f"Total tax owed: {round(taxowed+prsiowed+useowed, 3)}")
+    print(' '*29+f"Net wage: {int(wage)-taxowed-prsiowed-useowed}")
     restart()
 
 
