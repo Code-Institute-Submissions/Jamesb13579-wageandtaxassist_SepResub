@@ -12,7 +12,7 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('employeedetails')
 
-print(' '*25 + "Welcome to Wage and Tax assist")
+print(' '*25 + "Welcome to wage and Tax assist")
 print(' '*25 + "******************************")
 
 
@@ -52,25 +52,87 @@ def choose_option():
     elif userinput > 2:
         raise ValueError("Please enter 1 or 2")
 
+def employee_name():
+    """
+    input for employee name
+    """
+    employee_name = input("Please enter employees name:\n")
+    return employee_name
+
+def weekly_hours():
+    """
+    input for hours worked
+    """
+    weekly_hours = int(input("Hours worked this week:\n"))
+    return weekly_hours
+
+
+
+def hourly_wage(employeeName):
+    """
+    test
+    """    
+    for i in range(1, SHEET.sheet1.row_count + 1):
+        row = SHEET.sheet1.row_values(i)
+        if row[0] == employeeName:
+            return row[2]
+
+
+def tax_credits(employeeName):
+    """
+    test
+    """
+    for i in range(1, SHEET.sheet1.row_count + 1):
+        row = SHEET.sheet1.row_values(i)
+        if row[0] == employeeName:
+            return row[1]
+
+
+employeeName = employee_name()
+weeklyHours = weekly_hours()
+hourlyWage = hourly_wage(employeeName)
+taxCredits = tax_credits(employeeName)
+wage = int(hourlyWage) * int(weeklyHours)
+print(wage)
+
 
 def chosen_employee():
     """
     fuction to bring together tax details for chosen employee
     """
     employee_name = input("Please enter employees name:\n")
-    WAGE = 685.92
-    taxowed = tax(WAGE)
-    prsiowed = prsi(WAGE)
-    useowed = usc(WAGE)
+    hours_worked = int(input("Hours worked this week:\n"))
+    """
+    how to collect employee data
+    """
+    row_number = SHEET.sheet1.row_count
+    
+    for i in range(1, 1000, 1):
+        row = SHEET.sheet1.row_values(i)
+        if row[1] == employee_name:
+            tax_credits = row[0]
+            return tax_credits
+    for i in range(1, 1000, 1):
+        row = SHEET.sheet1.row_values(i)
+        if row[1] == employee_name:
+            hourly_wage = row[2]
+            return hourly_wage
+
+
+
+"""
+    taxowed = tax(wage)
+    prsiowed = prsi(wage)
+    useowed = usc(wage)
     print(' '*21 + "Hi wage details for this employee are:")
-    print(' '*25 + f"Gross Weekly wage: {WAGE}")
+    print(' '*25 + f"Gross Weekly wage: {wage}")
     print(' '*32 + f"Tax Owed: {taxowed}")
     print(' '*32 + f"PRSI owed: {prsiowed}")
     print(' '*32 + f"USC owed: {useowed}")
     print(' '*29 + f"total tax owed {taxowed+prsiowed+useowed}")
-    print(' '*29+f"Net wage for this week {WAGE-taxowed-prsiowed-useowed}")
+    print(' '*29+f"Net wage for this week {wage-taxowed-prsiowed-useowed}")
     restart()
-
+"""
 
 def restart():
     """
@@ -150,18 +212,3 @@ def tax(wage):
 
 
 #choose_option()
-
-if SHEET.sheet1.find("james"):
-    print("row_values")
-
-for i in range(1, SHEET.sheet1.row_count + 1):
-    row = SHEET.sheet1.row_values(i)
-    if row[0] == "james":
-        tax_credits = row[1]
-        hourly_wage = row[2]
-        print(tax_credits)
-        print(hourly_wage)
-
-WAGE = 685.92
-
-
