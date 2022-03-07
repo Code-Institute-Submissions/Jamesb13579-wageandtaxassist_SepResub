@@ -1,5 +1,6 @@
 import gspread
 from google.oauth2.service_account import Credentials
+from decimal import Decimal as D
 
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -14,22 +15,6 @@ SHEET = GSPREAD_CLIENT.open('employeedetails')
 
 print(' '*25 + "Welcome to wage and Tax assist")
 print(' '*25 + "******************************")
-
-
-def new_employee():
-    """
-    Function to enter employee details to spreadsheet
-    """
-    newemployee = []
-    print("Please input employee details")
-    name = input("Enter employee name: \n")
-    tax_credits = int(input("Enter employees tax Credits:\n"))
-    wage = input("Enter employees hourly wage:\n")
-    newemployee = name, tax_credits, wage
-    worksheet_to_update = SHEET.worksheet("Sheet1")
-    worksheet_to_update.append_row(newemployee)
-    print("Information added to spreadsheet")
-    restart()
 
 
 def choose_option():
@@ -48,9 +33,26 @@ def choose_option():
         new_employee()
     elif userinput == 2:
         print("You have chosen existing employee wages")
-        chosen_employee()
+        main()
     elif userinput > 2:
         raise ValueError("Please enter 1 or 2")
+
+
+def new_employee():
+    """
+    Function to enter employee details to spreadsheet
+    """
+    newemployee = []
+    print("Please input employee details")
+    name = input("Enter employee name: \n")
+    tax_credits = int(input("Enter employees tax Credits:\n"))
+    wage = input("Enter employees hourly wage:\n")
+    newemployee = name, tax_credits, wage
+    worksheet_to_update = SHEET.worksheet("Sheet1")
+    worksheet_to_update.append_row(newemployee)
+    print("Information added to spreadsheet")
+    restart()
+
 
 def employee_name():
     """
@@ -58,6 +60,7 @@ def employee_name():
     """
     employee_name = input("Please enter employees name:\n")
     return employee_name
+    
 
 def weekly_hours():
     """
@@ -88,52 +91,6 @@ def tax_credits(employeeName):
             return row[1]
 
 
-employeeName = employee_name()
-weeklyHours = weekly_hours()
-hourlyWage = hourly_wage(employeeName)
-taxCredits = tax_credits(employeeName)
-wage = int(hourlyWage) * int(weeklyHours)
-print(wage)
-
-
-def chosen_employee():
-    """
-    fuction to bring together tax details for chosen employee
-    """
-    employee_name = input("Please enter employees name:\n")
-    hours_worked = int(input("Hours worked this week:\n"))
-    """
-    how to collect employee data
-    """
-    row_number = SHEET.sheet1.row_count
-    
-    for i in range(1, 1000, 1):
-        row = SHEET.sheet1.row_values(i)
-        if row[1] == employee_name:
-            tax_credits = row[0]
-            return tax_credits
-    for i in range(1, 1000, 1):
-        row = SHEET.sheet1.row_values(i)
-        if row[1] == employee_name:
-            hourly_wage = row[2]
-            return hourly_wage
-
-
-
-"""
-    taxowed = tax(wage)
-    prsiowed = prsi(wage)
-    useowed = usc(wage)
-    print(' '*21 + "Hi wage details for this employee are:")
-    print(' '*25 + f"Gross Weekly wage: {wage}")
-    print(' '*32 + f"Tax Owed: {taxowed}")
-    print(' '*32 + f"PRSI owed: {prsiowed}")
-    print(' '*32 + f"USC owed: {useowed}")
-    print(' '*29 + f"total tax owed {taxowed+prsiowed+useowed}")
-    print(' '*29+f"Net wage for this week {wage-taxowed-prsiowed-useowed}")
-    restart()
-"""
-
 def restart():
     """
     function to allow user to restart to enter new data.
@@ -162,12 +119,12 @@ def prsi(wage):
     if wage < 352:
         prsi_owed = 0
     elif wage < 424:
-        one_sixth = (wage - 352)/6
+        one_sixth = (int(wage) - 352)/6
         prsi_credit = 12 - one_sixth
-        taxable_pay = (wage * 0.04)
+        taxable_pay = (int(wage) * 0.04)
         prsi_owed = round(taxable_pay - prsi_credit, 2)
     elif wage > 424.01:
-        prsi_owed = round(wage * 0.04, 2)
+        prsi_owed = round(int(wage) * 0.04, 2)
     return prsi_owed
 
 
@@ -176,39 +133,62 @@ def usc(wage):
     function to work out usc charge for employee
     """
     if wage < 231:
-        usc_owed = round(wage * 0.005, 2)
+        usc_owed = round(int(wage) * 0.005, 2)
     elif wage < 409.5:
         low_rate = (231 * 0.005)
-        mid_rate = (wage - 231)*0.02
+        mid_rate = (int(wage) - 231)*0.02
         usc_owed = round(low_rate + mid_rate, 2)
     elif wage < 1347:
         low_rate = (231 * 0.005)
         mid_rate = (178.5 * 0.02)
-        high_rate = (wage - 409.5)*0.045
+        high_rate = (int(wage) - 409.5)*0.045
         usc_owed = round(low_rate + mid_rate + high_rate, 2)
     elif wage > 1347.01:
         low_rate = (231 * 0.005)
         mid_rate = (178.5 * 0.02)
         high_rate = (937.5 * 0.04)
-        highest_rate = (wage - 1347)*0.08
+        highest_rate = (int(wage) - 1347)*0.08
         usc_owed = round(low_rate + mid_rate + high_rate + highest_rate, 2)
     return usc_owed
 
 
-def tax(wage):
+def tax(wage, weeklyTaxCredits):
     """
     function to work out tax charge for employee
     """
 
-    tax_credit = 95.89
+    
     if wage < 707.69:
-        tax_owed = round(wage * 0.2 - tax_credit, 2)
+        tax_owed = round(int(wage) * 0.2 - int(weeklyTaxCredits), 2)
     elif wage > 707.7:
         low_rate = (707.69 * 0.2)
-        high_rate = (wage - 707.69)*0.4
-        tax_owed = round(low_rate + high_rate - tax_credit, 2)
+        high_rate = (int(wage) - 707.69)*0.4
+        tax_owed = round(low_rate + high_rate - weeklyTaxCredits, 2)
 
     return tax_owed
 
+def main():
+    """
+    test
+    """
+    employeeName = employee_name()
+    weeklyHours = weekly_hours()
+    hourlyWage = hourly_wage(employeeName)
+    taxCredits = tax_credits(employeeName)
+    weeklyTaxCredits = D(taxCredits) / 52
+    wage = D(hourlyWage) * D(weeklyHours)
+    print(wage)
+    taxowed = tax(wage, weeklyTaxCredits)
+    prsiowed = prsi(wage)
+    useowed = usc(wage)
+    print(' '*21 + "Hi wage details for this employee are:")
+    print(' '*25 + f"Gross Weekly wage: {wage}")
+    print(' '*32 + f"Tax Owed: {taxowed}")
+    print(' '*32 + f"PRSI owed: {prsiowed}")
+    print(' '*32 + f"USC owed: {useowed}")
+    print(' '*29 + f"total tax owed {taxowed+prsiowed+useowed}")
+    print(' '*29+f"Net wage for this week {int(wage)-taxowed-prsiowed-useowed}")
+    restart()
 
-#choose_option()
+
+choose_option()
