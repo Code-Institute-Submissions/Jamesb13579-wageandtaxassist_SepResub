@@ -89,24 +89,14 @@ def list_names():
 
 
 
-def hourly_wage(name):
+def wage_credits(name):
     """
     returns employees hourly wage from the spreedsheet
     """
     for i in range(1, SHEET.sheet1.row_count + 1):
         row = SHEET.sheet1.row_values(i)
-        if row[0] == name:
-            return row[2]
-
-
-def tax_credits(name):
-    """
-    returns employees tax credits from the spreedsheet
-    """
-    for i in range(1, SHEET.sheet1.row_count + 1):
-        row = SHEET.sheet1.row_values(i)
-        if row[0] == name:
-            return row[1]
+        if row[0].lower() == name.lower():
+            return (row[2], row[1])
 
 
 def restart():
@@ -120,12 +110,13 @@ def restart():
 
     if userinput == 1:
         print("You have chosen yes")
-        choose_option()
+        main()
     elif userinput == 2:
         print("You have chosen no program will end now")
         exit()
-    elif userinput > 2:
-        raise ValueError("Please enter 1 or 2")
+    else:
+        print("Please enter 1 or 2")
+        restart()
 
 
 def prsi(wage):
@@ -199,8 +190,7 @@ def main():
     elif user_input == 2:
         name = employee_name()
         hours = weekly_hours()
-        hourly_rate = hourly_wage(name)
-        credits_tax = tax_credits(name)
+        hourly_rate, credits_tax = wage_credits(name)
         weekly_tax_credits = Decimal(credits_tax) / 52
         wage = Decimal(hourly_rate) * Decimal(hours)
         print(wage)
@@ -217,6 +207,7 @@ def main():
         restart()
     elif user_input == 3:
         list_names()
+        restart()
     elif user_input == 0 :
         exit()
 
