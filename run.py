@@ -1,4 +1,4 @@
-from decimal import Decimal as D
+from decimal import Decimal
 import gspread
 from google.oauth2.service_account import Credentials
 
@@ -26,17 +26,25 @@ def choose_option():
     print(' '*10 + "*" * 60)
     print(' '*9 + "Type 2 if you would like you work out employee wages")
     print(' '*10 + "*" * 60)
+    print(' '*9 + "Type 3 if you would like to list employee names")
+    print(' '*9 + "Type 0 to exit")
 
     userinput = int(input("Type choice here please:\n"))
-
     if userinput == 1:
-        print("You have chosen enter employee details")
-        new_employee()
+        print("You have chosen enter employee details.")
     elif userinput == 2:
-        print("You have chosen existing employee wages")
-        main()
-    elif userinput > 2:
-        raise ValueError("Please enter 1 or 2")
+        print("You have chosen existing employee wages.")
+    elif userinput == 3:
+        print("You have chosen list employee names.")
+    elif userinput == 0:
+        print("Exiting.")
+    else:
+        print("Invalid option.")
+    return userinput
+
+
+
+
 
 
 def new_employee():
@@ -69,6 +77,16 @@ def weekly_hours():
     """
     week_hours = int(input("Hours worked this week:\n"))
     return week_hours
+
+
+def list_names():
+    """
+    ADD LATER
+    """
+    names = SHEET.sheet1.col_values(1)
+    for name in names:
+        print(name)
+
 
 
 def hourly_wage(name):
@@ -165,26 +183,43 @@ def tax(wage, weekly_tax_credits):
 
 def main():
     """
-    this runs when option 2 is chosen to brimg together all the functions
+    this runs when option 2 is chosen to bring together all the functions
     """
-    name = employee_name()
-    hours = weekly_hours()
-    hourly_rate = hourly_wage(name)
-    credits_tax = tax_credits(name)
-    weekly_tax_credits = D(credits_tax) / 52
-    wage = D(hourly_rate) * D(hours)
-    print(wage)
-    taxowed = tax(wage, weekly_tax_credits)
-    prsiowed = prsi(wage)
-    useowed = usc(wage)
-    print(' '*21 + "Hi wage details for this employee are:")
-    print(' '*25 + f"Gross Weekly wage: {wage}")
-    print(' '*32 + f"Tax Owed: {taxowed}")
-    print(' '*32 + f"PRSI owed: {prsiowed}")
-    print(' '*32 + f"USC owed: {useowed}")
-    print(' '*29 + f"Total tax owed: {round(taxowed+prsiowed+useowed, 3)}")
-    print(' '*29+f"Net wage: {int(wage)-taxowed-prsiowed-useowed}")
-    restart()
+    i = 0
+    while i <= 0:
+        try:
+            user_input = choose_option()
+            if user_input in [1, 2, 3, 0]:
+                i = + 1
+        except:
+            print("Please enter a valid option")
+
+    if user_input == 1:
+        new_employee()
+    elif user_input == 2:
+        name = employee_name()
+        hours = weekly_hours()
+        hourly_rate = hourly_wage(name)
+        credits_tax = tax_credits(name)
+        weekly_tax_credits = Decimal(credits_tax) / 52
+        wage = Decimal(hourly_rate) * Decimal(hours)
+        print(wage)
+        taxowed = tax(wage, weekly_tax_credits)
+        prsiowed = prsi(wage)
+        useowed = usc(wage)
+        print(' '*21 + "Hi wage details for this employee are:")
+        print(' '*25 + f"Gross Weekly wage: {wage}")
+        print(' '*32 + f"Tax Owed: {taxowed}")
+        print(' '*32 + f"PRSI owed: {prsiowed}")
+        print(' '*32 + f"USC owed: {useowed}")
+        print(' '*29 + f"Total tax owed: {round(taxowed+prsiowed+useowed, 3)}")
+        print(' '*29+f"Net wage: {int(wage)-taxowed-prsiowed-useowed}")
+        restart()
+    elif user_input == 3:
+        list_names()
+    elif user_input == 0 :
+        exit()
 
 
-choose_option()
+if __name__ == "__main__":
+    main()
