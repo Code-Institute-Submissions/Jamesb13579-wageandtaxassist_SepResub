@@ -23,11 +23,13 @@ def choose_option():
     Function to choose between entering new employee and working out wages
     """
     print(' '*13 + "Type 1 if you would like to enter new employee details")
-    print(' '*10 + "*" * 60)
-    print(' '*9 + "Type 2 if you would like you work out employee wages")
-    print(' '*10 + "*" * 60)
-    print(' '*9 + "Type 3 if you would like to list employee names")
-    print(' '*9 + "Type 0 to exit")
+    print(' '*13 + "*" * 54)
+    print(' '*14 + "Type 2 if you would like you work out employee wages")
+    print(' '*14 + "*" * 52)
+    print(' '*16 + "Type 3 if you would like to list employee names")
+    print(' '*16 + "*" * 48)
+    print(' '*33 + "Type 0 to exit")
+    print(' '*33 + "*" * 14)
 
     userinput = int(input("Type choice here please:\n"))
     if userinput == 1:
@@ -41,10 +43,6 @@ def choose_option():
     else:
         print("Invalid option.")
     return userinput
-
-
-
-
 
 
 def new_employee():
@@ -63,30 +61,22 @@ def new_employee():
     restart()
 
 
-def employee_name():
+def employee_name_hours():
     """
     input for employee name
     """
     name = input("Please enter employees name:\n")
-    return name
-
-
-def weekly_hours():
-    """
-    input for hours worked
-    """
     week_hours = int(input("Hours worked this week:\n"))
-    return week_hours
+    return (name, week_hours)
 
 
 def list_names():
     """
-    ADD LATER
+    bring up list of screen of all employees in spread sheet
     """
     names = SHEET.sheet1.col_values(1)
     for name in names:
         print(name)
-
 
 
 def wage_credits(name):
@@ -168,7 +158,7 @@ def tax(wage, weekly_tax_credits):
     elif wage > 707.7:
         low_rate = (707.69 * 0.2)
         high_rate = (int(wage) - 707.69)*0.4
-        tax_owed = round(low_rate + high_rate - weekly_tax_credits, 2)
+        tax_owed = round(Decimal(low_rate + high_rate - weekly_tax_credits), 2)
     return tax_owed
 
 
@@ -182,18 +172,16 @@ def main():
             user_input = choose_option()
             if user_input in [1, 2, 3, 0]:
                 i = + 1
-        except:
+        except ValueError:
             print("Please enter a valid option")
 
     if user_input == 1:
         new_employee()
     elif user_input == 2:
-        name = employee_name()
-        hours = weekly_hours()
+        name, hours = employee_name_hours()
         hourly_rate, credits_tax = wage_credits(name)
         weekly_tax_credits = Decimal(credits_tax) / 52
         wage = Decimal(hourly_rate) * Decimal(hours)
-        print(wage)
         taxowed = tax(wage, weekly_tax_credits)
         prsiowed = prsi(wage)
         useowed = usc(wage)
@@ -208,7 +196,7 @@ def main():
     elif user_input == 3:
         list_names()
         restart()
-    elif user_input == 0 :
+    elif user_input == 0:
         exit()
 
 
