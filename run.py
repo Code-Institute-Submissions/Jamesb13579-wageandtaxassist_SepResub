@@ -157,8 +157,8 @@ def tax(wage, weekly_tax_credits):
         tax_owed = round(int(wage) * 0.2 - int(weekly_tax_credits), 2)
     elif wage > 707.7:
         low_rate = (707.69 * 0.2)
-        high_rate = (int(wage) - 707.69)*0.4
-        tax_owed = round(Decimal(low_rate + high_rate - weekly_tax_credits), 2)
+        high_rate = (Decimal(wage) - 707.69)*0.4
+        tax_owed = round(low_rate + high_rate - weekly_tax_credits, 2)
     return tax_owed
 
 
@@ -191,7 +191,7 @@ def main():
         print(' '*32 + f"PRSI owed: {prsiowed}")
         print(' '*32 + f"USC owed: {useowed}")
         print(' '*29 + f"Total tax owed: {round(taxowed+prsiowed+useowed, 3)}")
-        print(' '*29+f"Net wage: {int(wage)-taxowed-prsiowed-useowed}")
+        print(' '*32+f"Net wage: {int(wage)-taxowed-prsiowed-useowed}")
         restart()
     elif user_input == 3:
         list_names()
