@@ -65,7 +65,8 @@ def employee_name_hours():
     """
     input for employee name
     """
-    name = input("Please enter employees name:\n")
+    list_names()
+    name = input("Please choose and enter employees name:\n")
     week_hours = int(input("Hours worked this week:\n"))
     return (name, week_hours)
 
@@ -153,12 +154,13 @@ def tax(wage, weekly_tax_credits):
     """
     function to work out tax charge for employee
     """
+    taxes = int(weekly_tax_credits)
     if wage < 707.69:
         tax_owed = round(int(wage) * 0.2 - int(weekly_tax_credits), 2)
     elif wage > 707.7:
         low_rate = (707.69 * 0.2)
-        high_rate = (Decimal(wage) - 707.69)*0.4
-        tax_owed = round(low_rate + high_rate - weekly_tax_credits, 2)
+        high_rate = (int(wage) - 707.69)*0.4
+        tax_owed = low_rate + high_rate - taxes
     return tax_owed
 
 
@@ -181,7 +183,7 @@ def main():
         name, hours = employee_name_hours()
         hourly_rate, credits_tax = wage_credits(name)
         weekly_tax_credits = Decimal(credits_tax) / 52
-        wage = Decimal(hourly_rate) * Decimal(hours)
+        wage = (Decimal(hourly_rate) * Decimal(hours))
         taxowed = tax(wage, weekly_tax_credits)
         prsiowed = prsi(wage)
         useowed = usc(wage)
