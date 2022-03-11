@@ -50,63 +50,68 @@ To get to this section you choose option one, this section will then allow you t
 To get to this section you choose option two, this section allows you to work out a current employees wages and tax details. It will ask you for the Employee name and hours worked this week.
 It will then check the name against the spread sheet and return the correct wages and taxes. You will then be given the option to start again or exit.
 
-![](docs/newemployee.png)
+![](docs/existingemployee.png)
 
 ## List names
 
+To get to this section you choose option three, this section allow you to see all employee names currently in the data base.
+
+![](docs/employeelist.png)
+
 ## Exit
 
-
-
-
-
-
+On the main menu you can choose zero to end the program. You can also do this at the end of any section.
 ## Technologies used
 
-- HTML5: Used to make the structure and content of the game
-- CSS3: Used to style the game content and appearance
-- JAVASCRIPT: Used to make the game interactive
+- Python: Used to make the structure and content of the program
 - GITPOD: Used to code the game
-- GITHUB: Used to store, deploy and host the game
-- Balsamiq Wireframes: Used to draft page design and layout
+- GITHUB: Used to store
+- HEROKU: Used to deploy and host the program
 
 ## Testing
 
-I used Dev tools in chrome constantly during the development of my code to try and fix the style and catch any issues, I committed and detailed as much as possible of the changes made to my code. 
+I tried as much as posible to make my code modular and then tested each section to make sure everything was working correctly.
+I also went through all the options multiply times to test that i wasn't getting any errors and that everything was acting correctly.
+
+__Bugs & Fixes__
+
+During the build process I had a few bugs. One of them was I was getting was a float decimal error due to the fact i trying to multiply a float and a decimal. I was able to fix this by changing one of my values to an integer.
+Another bug was that capitalization could affect the results. I fixed this by making the program convert all name results to lowercase.
 
 __Validator Testing__
 
-HTML: No errors reported
+Python: No errors reported
 
-![](docs/htmlval.png)
-
-CSS: No errors reported
-
-![](docs/cssval.png)
-
-JAVASCRIPT: No errors reported
-
-![](docs/jsval.png)
-
-__Lighthouse__
-Desktop
-
-![](docs/lighthousescore.png)
-
-__Bugs & Fixes__
-One warning on jshint.
-I had some issues with the game with JAVASCRIPT but i thing i have most of them sorted.
+![](docs/pep8.png)
 
 ## Deployment and Cloning
 
 __Deployment__
 
-The website was deployed to github pages using the following steps:
-- Clicked on my repository for first-project. 
-- Clicked settings tab and navigated down to "Pages"
-- Selected "Main" in branch drop down box
-- Clicked "save" which produced the live link which can be viewed here https://jamesb13579.github.io/project2-alienabduction/
+This project has been deployed via Heroku, making use of the mock terminal provided by Code Institute.
 
+__Process for deployment__
+
+- Sign up/into Heroku
+- Create a new Heroku app
+- Give the new app a name
+- Select the appropriate region
+- Open the "Settings" tab on the Heroku    App dashboard
+- Add a new config var
+- Set the KEY to "PORT"
+- set the VALUE to "8000"
+- Set the buildpacks to Python and NodeJS in that order
+- Open the "Deploy" tab
+- Select the "GitHub" deployment method
+- Select "Link to GitHub"
+- Link the new Heroku app to the GitHub - - repository & click "Connect"
+- Then choose either:
+- One:
+  - Enable Automatic Deploys
+  - Will automatically re-deploy with any updates or changes made
+- Two:
+  - Deploy Branch Manually
+  - Will deploy the current release on GitHub
 __Cloning__
 
 In the File menu, click Clone Repository.
@@ -117,17 +122,8 @@ In the File menu, click Clone Repository.
 
 ## Credits
 
-__Tools & Media__
-
-- Fonts used supplied by [Google Fonts](https://https://fonts.google.com/)
-- Images used were created by me.
-- Color scheme created using the website [Colormind](http://colormind.io/)
-- Images used in this document were screen shot from validators and amiresponsive.
-- Converted images with [Cloud Convert](https://cloudconvert.com/)
-
 __Code and Tutorials__
 
-- Learnt how to build onscreen keyboard through youtube tutorials.
-- W3schools also helped with me learn extra about more about javascript.
-- Learnt more about javascript with a course from [Udemy](https://www.udemy.com/)
-- Learnt how to make a [Favicon](https://www.youtube.com/watch?v=kEf1xSwX5D8) 
+- Learn't more about the different libaries by reading the documnetation to see best practice to impliment into my code. [GSPREAD](https://docs.gspread.org/en/latest/)
+- W3schools also helped with me learn extra about more about Python.
+- Learn't about Decimal module as an improvement for floars. [Decimal](https://docs.python.org/3/library/decimal.html)
