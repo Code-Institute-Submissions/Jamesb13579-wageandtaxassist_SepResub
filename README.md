@@ -77,6 +77,7 @@ __Bugs & Fixes__
 
 During the build process I had a few bugs. One of them was I was getting was a float decimal error due to the fact i trying to multiply a float and a decimal. I was able to fix this by changing one of my values to an integer.
 Another bug was that capitalization could affect the results. I fixed this by making the program convert all name results to lowercase.
+In my intial submission I missed an error where if a name that wasnt in the spread sheet was entered it return an indexerror, I fixed this by adding a try except Statement.
 
 __Validator Testing__
 
