@@ -180,21 +180,25 @@ def main():
     if user_input == 1:
         new_employee()
     elif user_input == 2:
-        name, hours = employee_name_hours()
-        hourly_rate, credits_tax = wage_credits(name)
-        weekly_tax_credits = Decimal(credits_tax) / 52
-        wage = (Decimal(hourly_rate) * Decimal(hours))
-        taxowed = tax(wage, weekly_tax_credits)
-        prsiowed = prsi(wage)
-        useowed = usc(wage)
-        print(' '*21 + "Hi wage details for this employee are:")
-        print(' '*25 + f"Gross Weekly wage: {wage}")
-        print(' '*32 + f"Tax Owed: {taxowed}")
-        print(' '*32 + f"PRSI owed: {prsiowed}")
-        print(' '*32 + f"USC owed: {useowed}")
-        print(' '*29 + f"Total tax owed: {round(taxowed+prsiowed+useowed, 3)}")
-        print(' '*32+f"Net wage: {int(wage)-taxowed-prsiowed-useowed}")
-        restart()
+        try:
+            name, hours = employee_name_hours()
+            hourly_rate, credits_tax = wage_credits(name)
+            weekly_tax_credits = Decimal(credits_tax) / 52
+            wage = (Decimal(hourly_rate) * Decimal(hours))
+            taxowed = tax(wage, weekly_tax_credits)
+            prsiowed = prsi(wage)
+            useowed = usc(wage)
+            print(' '*21 + "Hi wage details for this employee are:")
+            print(' '*25 + f"Gross Weekly wage: {wage}")
+            print(' '*32 + f"Tax Owed: {taxowed}")
+            print(' '*32 + f"PRSI owed: {prsiowed}")
+            print(' '*32 + f"USC owed: {useowed}")
+            print(' '*29 + f"Total tax owed: {round(taxowed+prsiowed+useowed, 3)}")
+            print(' '*32+f"Net wage: {int(wage)-taxowed-prsiowed-useowed}")
+            restart()
+        finally:
+            print("Incorrect entry, please try again")
+            restart()
     elif user_input == 3:
         list_names()
         restart()
