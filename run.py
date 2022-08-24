@@ -54,16 +54,19 @@ def new_employee():
     name = input("Enter employee name: \n")
     credits_tax = int(input("Enter employees tax Credits:\n"))
     wage = input("Enter employees hourly wage:\n")
-    newemployee = name, credits_tax, wage
-    worksheet_to_update = SHEET.worksheet("Sheet1")
-    worksheet_to_update.append_row(newemployee)
-    print("Information added to spreadsheet")
+    if (name != "" and wage != "" and credits_tax != ""):
+        newemployee = name, credits_tax, wage
+        worksheet_to_update = SHEET.worksheet("Sheet1")
+        worksheet_to_update.append_row(newemployee)
+        print("Information added to spreadsheet")
+    else:
+        print("You have entered no details for a field, restarting....")
     restart()
 
 
 def employee_name_hours():
     """
-    input for employee name
+    Input for employee name
     """
     list_names()
     name = input("Please choose and enter employees name:\n")
@@ -97,7 +100,7 @@ def restart():
     """
     print("Would you like to start the process again")
     print("Type 1 for yes or 2 for no")
-    userinput = int(input("Type choice here please:\n"))
+    userinput = input("Type choice here please:\n")
 
     if userinput == 1:
         print("You have chosen yes")
