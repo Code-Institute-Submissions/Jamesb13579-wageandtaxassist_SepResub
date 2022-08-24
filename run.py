@@ -102,10 +102,10 @@ def restart():
     print("Type 1 for yes or 2 for no")
     userinput = input("Type choice here please:\n")
 
-    if userinput == 1:
+    if userinput == "1":
         print("You have chosen yes")
         main()
-    elif userinput == 2:
+    elif userinput == "2":
         print("You have chosen no program will end now")
         exit()
     else:
