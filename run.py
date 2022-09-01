@@ -52,15 +52,47 @@ def new_employee():
     newemployee = []
     print("Please input employee details")
     name = input("Enter employee name: \n")
-    credits_tax = int(input("Enter employees tax Credits:\n"))
-    wage = float(input("Enter employees hourly wage:\n"))
-    if (isinstance(credits_tax, int) and isinstance(wage, float)):
-        print("Processing")
-        if (name != "" and wage != "" and credits_tax != ""):
-            newemployee = name, credits_tax, wage
-            worksheet_to_update = SHEET.worksheet("Sheet1")
-            worksheet_to_update.append_row(newemployee)
-            print("Information added to spreadsheet")
+    try:
+        credits_tax = int(input("Enter employees Tax Credits:\n"))
+    except error:
+        print("Please only enter numbers in to the Tax Credits input")        
+        print("Would you like to start the process again")
+        print("Type 1 for yes or 2 for no")
+        employeeinput = input("Type choice here please:\n")
+
+        if employeeinput == "1":
+            print("You have chosen try again")
+            new_employee()
+        elif employeeinput == "2":
+            print("You have chosen no program will now go back to main menu")
+            main()
+        else:
+            print("Please enter 1 or 2")
+            restart()
+
+    try:
+        wage = int(input("Enter employees hourly wage:\n"))
+    except:
+        print("Please only enter numbers in to the Tax Credits input")        
+        print("Would you like to start the process again")
+        print("Type 1 for yes or 2 for no")
+        employeeinput = input("Type choice here please:\n")
+
+        if employeeinput == "1":
+            print("You have chosen try again")
+            new_employee()
+        elif employeeinput == "2":
+            print("You have chosen no program will now go back to main menu")
+            main()
+        else:
+            print("Please enter 1 or 2")
+            restart()
+        
+    if (name != "" and wage != "" and credits_tax != ""):
+        newemployee = name, credits_tax, wage
+        worksheet_to_update = SHEET.worksheet("Sheet1")
+        worksheet_to_update.append_row(newemployee)
+        print("Information added to spreadsheet")
     else:
         print("You have entered no details for a field, restarting....")
     restart()
