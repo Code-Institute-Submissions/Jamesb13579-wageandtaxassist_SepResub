@@ -52,9 +52,16 @@ def new_employee():
     newemployee = []
     print("Please input employee details")
     name = input("Enter employee name: \n")
-    credits_tax = input("Enter employees tax Credits:\n")
-    wage = input("Enter employees hourly wage:\n")
-    if (name != "" and wage != "" and credits_tax != "" and float(credits_tax) and float(wage)):
+    credits_tax_input = input("Enter employees tax Credits:\n")
+    wage_input = input("Enter employees hourly wage:\n")
+    if (isinstance(credits_tax_input, int) and isinstance(wage_input, float)):
+        credits_tax = credits_tax_input
+        wage = wage_input
+        return (credits_tax, wage)
+    else:
+        print("You have incorrectly added a leter instead on a number please try again")
+        restart()
+    if (name != "" and wage != "" and credits_tax != ""):
         newemployee = name, credits_tax, wage
         worksheet_to_update = SHEET.worksheet("Sheet1")
         worksheet_to_update.append_row(newemployee)
