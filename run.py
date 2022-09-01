@@ -52,8 +52,8 @@ def new_employee():
     newemployee = []
     print("Please input employee details")
     name = input("Enter employee name: \n")
-    credits_tax_input = input("Enter employees tax Credits:\n")
-    wage_input = input("Enter employees hourly wage:\n")
+    credits_tax_input = int(input("Enter employees tax Credits:\n"))
+    wage_input = float(input("Enter employees hourly wage:\n"))
     if (isinstance(credits_tax_input, int) and isinstance(wage_input, float)):
         credits_tax = credits_tax_input
         wage = wage_input
