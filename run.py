@@ -54,7 +54,7 @@ def new_employee():
     name = input("Enter employee name: \n")
     credits_tax = input("Enter employees tax Credits:\n")
     wage = input("Enter employees hourly wage:\n")
-    if (name != "" and wage != "" and credits_tax != "" and isinstance(credits_tax, int) and isinstance(wage, float)):
+    if (name != "" and wage != "" and credits_tax != "" and float(credits_tax) and float(wage)):
         newemployee = name, credits_tax, wage
         worksheet_to_update = SHEET.worksheet("Sheet1")
         worksheet_to_update.append_row(newemployee)
