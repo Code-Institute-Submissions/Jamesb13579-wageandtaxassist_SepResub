@@ -54,8 +54,8 @@ def new_employee():
     name = input("Enter employee name: \n")
     credits_tax = input("Enter employees tax Credits:\n")
     wage = input("Enter employees hourly wage:\n")
-    if (type(credits_tax) != int and type(wage) != float):
-        print("incorrect input")    
+    if (isinstance(credits_tax, int) and isinstance(wage, float)):
+        print("Processing")
         if (name != "" and wage != "" and credits_tax != ""):
             newemployee = name, credits_tax, wage
             worksheet_to_update = SHEET.worksheet("Sheet1")
