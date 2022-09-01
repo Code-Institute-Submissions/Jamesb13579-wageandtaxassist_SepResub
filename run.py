@@ -52,8 +52,14 @@ def new_employee():
     newemployee = []
     print("Please input employee details")
     name = input("Enter employee name: \n")
-    credits_tax = Decimal(input("Enter employees tax Credits:\n"))
-    wage = Decimal(input("Enter employees hourly wage:\n"))
+    credits_tax = input("Enter employees tax Credits:\n")
+    wage = input("Enter employees hourly wage:\n")
+    try:
+        int(credits_tax)
+        int(wage)
+    except ValueError():
+        print("You have put a letter in a number field would you like to try again")
+        restart()
     if (name != "" and wage != "" and credits_tax != ""):
         newemployee = name, credits_tax, wage
         worksheet_to_update = SHEET.worksheet("Sheet1")
