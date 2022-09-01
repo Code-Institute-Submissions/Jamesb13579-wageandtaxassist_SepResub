@@ -54,18 +54,13 @@ def new_employee():
     name = input("Enter employee name: \n")
     credits_tax = input("Enter employees tax Credits:\n")
     wage = input("Enter employees hourly wage:\n")
-    while True:
-        try:
-            int(credits_tax)
-            int(wage)
-        except:
-            print("You have put a letter in a number field would you like to try again")
-            
-    if (name != "" and wage != "" and credits_tax != ""):
-        newemployee = name, credits_tax, wage
-        worksheet_to_update = SHEET.worksheet("Sheet1")
-        worksheet_to_update.append_row(newemployee)
-        print("Information added to spreadsheet")
+    if (type(credits_tax) != int and type(wage) != float):
+        print("incorrect input")    
+        if (name != "" and wage != "" and credits_tax != ""):
+            newemployee = name, credits_tax, wage
+            worksheet_to_update = SHEET.worksheet("Sheet1")
+            worksheet_to_update.append_row(newemployee)
+            print("Information added to spreadsheet")
     else:
         print("You have entered no details for a field, restarting....")
     restart()
