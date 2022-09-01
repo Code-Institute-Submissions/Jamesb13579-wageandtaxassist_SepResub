@@ -52,7 +52,7 @@ def new_employee():
     newemployee = []
     print("Please input employee details")
     name = input("Enter employee name: \n")
-    credits_tax = Decimal()(input("Enter employees tax Credits:\n"))
+    credits_tax = Decimal(input("Enter employees tax Credits:\n"))
     wage = Decimal(input("Enter employees hourly wage:\n"))
     if (name != "" and wage != "" and credits_tax != ""):
         newemployee = name, credits_tax, wage
