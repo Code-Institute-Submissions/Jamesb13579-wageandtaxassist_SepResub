@@ -54,8 +54,8 @@ def new_employee():
     name = input("Enter employee name: \n")
     try:
         credits_tax = int(input("Enter employees Tax Credits:\n"))
-    except error:
-        print("Please only enter numbers in to the Tax Credits input")        
+    except Exception:
+        print("Please only enter numbers in to the Tax Credits input")
         print("Would you like to start the process again")
         print("Type 1 for yes or 2 for no")
         employeeinput = input("Type choice here please:\n")
@@ -72,8 +72,8 @@ def new_employee():
 
     try:
         wage = int(input("Enter employees hourly wage:\n"))
-    except:
-        print("Please only enter numbers in to the Tax Credits input")        
+    except Exception:
+        print("Please only enter numbers in to the Tax Credits input")
         print("Would you like to start the process again")
         print("Type 1 for yes or 2 for no")
         employeeinput = input("Type choice here please:\n")
@@ -87,7 +87,7 @@ def new_employee():
         else:
             print("Please enter 1 or 2")
             restart()
-        
+
     if (name != "" and wage != "" and credits_tax != ""):
         newemployee = name, credits_tax, wage
         worksheet_to_update = SHEET.worksheet("Sheet1")
@@ -244,4 +244,12 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print('  Incorrect input. Please try again!')
+        try:
+            restart()
+        except Exception:
+            print("Please try again")
+            exit()
