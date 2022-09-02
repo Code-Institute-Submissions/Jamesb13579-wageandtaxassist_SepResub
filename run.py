@@ -248,8 +248,9 @@ if __name__ == "__main__":
         main()
     except KeyboardInterrupt:
         print('  Incorrect input. Please try again!')
-        try:
-            restart()
-        except Exception:
-            print("Please try again")
-            exit()
+        while True:
+            try:
+                restart()
+            except KeyboardInterrupt:
+                print("  Incorrect input. Please restart program!")
+                exit()
